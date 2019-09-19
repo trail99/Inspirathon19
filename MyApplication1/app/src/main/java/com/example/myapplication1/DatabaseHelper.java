@@ -1,21 +1,13 @@
 package com.example.myapplication1;
 
 import android.content.Context;
-
 import java.text.DateFormat;
-import java.time.LocalDate;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Build;
-
 import androidx.annotation.RequiresApi;
-
-import java.sql.SQLData;
-import java.time.LocalDate;
 import java.util.Calendar;
-
-import static android.icu.lang.UProperty.NAME;
-import static android.os.Build.ID;
+import java.util.Scanner;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -42,9 +34,36 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     // Table attributes for UserWills //
     private static final String BrowserPasswords = "Password";
 
-    // Table attributes for UserAuth //
-    public static final LocalDate authenticationPeriod = LocalDate.of(2019, 9, 10);
 
+    // Bank Details //
+    public static final String AccName = "", IFSCCode = "", BranchCode = "";
+    public static final double Balance = 0.0;
+    public static final int AccNo = 0;
+
+    public static Object[] getBankDets() {
+        Scanner ip = new Scanner(System.in);
+        Object[] temp = new Object[100];
+        // Take input from textboxes//
+        // and insert it into object array
+        return temp;
+    }
+
+    private static final Object[] BankDets =  getBankDets();
+
+    public static Object[] getInsDets() {
+        Scanner ip = new Scanner(System.in);
+        Object[] temp = new Object[100];
+        // Take input from textboxes //
+        // and insert it into object array //
+        return temp;
+    }
+
+    //Insurance Details
+    private static final Object[] InsDets = getInsDets();
+
+    // Table attributes for UserAuth //
+   // public int authPeriod = Integer.parseInt(getDate()) + 45; // error
+   // authPeriod.add(Calendar.DAY_OF_MONTH, 45);
 
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, 1);
@@ -65,9 +84,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String trustedUsers = "CREATE TABLE "
             + TABLE_UT + "(" + RId
-            + " INTEGER PRIMARY KEY AUTOINCREMENT," + TName + " TEXT," + TConNo + " TEXT," + TRel + "TEXT);";
+            + " INTEGER," + TName + " TEXT," + TConNo + " TEXT," + TRel + "TEXT);";
 
-    private static final String userWills = "CREATE TABLE " + TABLE_UW;
+    private static final String userWills = "CREATE TABLE "
+            + TABLE_UW + "(" + RId
+            + " INTEGER," + BrowserPasswords + " TEXT," + BankDets + " OBJECT);";
 
 
     @Override
@@ -75,7 +96,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Registration table is created when db object is created in MainActivity page //
         db.execSQL(registration);
         db.execSQL(trustedUsers);
-
+       // db.execSQL(userWills);
     }
 
     @Override
