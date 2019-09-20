@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">My Application1</string>
+    <string name="app_name">SecureStorageWills</string>
+    <string-array name="numbers">
+        <item>Trusted Contacts</item>
+        <item>Bank Account Details</item>
+        <item>Passwords</item>
+        <item>Insurance Details</item>
+    </string-array>
 </resources>

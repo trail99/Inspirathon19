@@ -19,10 +19,12 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Table attributes for Registration
     public static final String RId = "ID";
-    public static final String RName = "Name";
+    public static final String RUName = "UserName";
+    public static final String FUName = "FullName";
     public static final String REm = "Email";
     public static final String RPass = "Password";
     public static final String RPh = "Phone";
+    public static final String RDob = "DOB";
     public static final String RDate = "RegistrationDate";
 
     // Table attributes for UserTrusted
@@ -78,7 +80,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String registration = "CREATE TABLE "
             + TABLE_UR + "(" + RId
-            + " INTEGER PRIMARY KEY AUTOINCREMENT," + RName + " TEXT," + REm + " TEXT," + RPass + "TEXT," + RPh + " TEXT," + getDate() + "DATE);";
+            + " INTEGER PRIMARY KEY AUTOINCREMENT," + RUName + " TEXT," + FUName + " TEXT," + REm + " TEXT," + RPass + "TEXT," + RPh + " TEXT," + getDate() + "DATE);";
 
     private static final String trustedUsers = "CREATE TABLE "
             + TABLE_UT + "(" + RId

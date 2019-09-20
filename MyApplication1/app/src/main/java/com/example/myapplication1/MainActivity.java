@@ -7,39 +7,66 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
+
 import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity {
     //SQLiteOpenHelper openHelper;
     DatabaseHelper db;
+    private EditText name;
+    private EditText password;
+    private Button login;
+    private TextView attempt;
+    private TextView newUser;
+    private int counter = 5;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        name = (EditText) findViewById(R.id.etName);
+        password = (EditText) findViewById(R.id.et4);
+        login = (Button) findViewById(R.id.btnLogin);
+        attempt = (TextView) findViewById(R.id.tvAttempts);
+        newUser = (TextView) findViewById(R.id.tvNew);
+
         db = new DatabaseHelper(this);
 
-        // When user presses the register button, this activates and keeps listening to notify the user of the authentication process (only tje first time)
-        // after the first notification is given, thereafter the user has to click on "authorize" button to do the same
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+
+        login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Calendar cal = Calendar.getInstance();
-
-                // User gets an alarm every thirty days at 18:00 HRS in the evening //
-                cal.set(Calendar.HOUR_OF_DAY, 18);
-                cal.set(Calendar.MINUTE, 00);
-                cal.set(Calendar.SECOND, 00);
-
-
-                Intent intent = new Intent(getApplicationContext(), Notification_receiver.class);
-                PendingIntent pid = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                AlarmManager alarmMan = (AlarmManager) getSystemService(ALARM_SERVICE);
-                alarmMan.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 720 * 60 * 60 * 1000, pid);
-
+                validate(name.getText().toString(), password.getText().toString());
             }
         });
+
+        newUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this, FrontPage.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void validate(String userName, String userPassword) {
+        if ((userName.equals("admin")) && (userPassword.equals("12345"))) {
+            Intent intent = new Intent(MainActivity.this, HomePage.class);
+            startActivity(intent);
+        } else {
+            counter--;
+            if (counter == 0) {
+                login.setEnabled(false);
+            }
+            attempt.setText("Attemps Remaining: "+ String.valueOf(counter));
+        }
     }
 
 }
