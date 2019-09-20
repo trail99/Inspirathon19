@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myapplication1">
 
+    <uses-permission-sdk-23 android:name="com.android.alarm.permission.SET_ALARM"/>
+    
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,6 +19,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        
+        <activity android:name=".RepeatingActivity"/>
+        <activity android:name=".Notification_receiver"/>
+
     </application>
 
 </manifest>

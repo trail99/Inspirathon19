@@ -1,28 +1,16 @@
 package com.example.myapplication1;
-//package android.database.sqlite;
-import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.appcompat.app.AppCompatActivity;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import android.widget.Button;
-import android.widget.EditText;
-
-import com.allyants.notifyme.NotifyMe;
-import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+import android.view.View;
 import java.util.Calendar;
 
-public class MainActivity extends AppCompatActivity implements  TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
-    DatabaseHelper db;
 
-    Calendar now = Calendar.getInstance();
-    TimePickerDialog tpd;
-    DatePickerDialog dpd;
-    EditText etText, etContent;
+public class MainActivity extends AppCompatActivity {
+    DatabaseHelper db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,47 +18,26 @@ public class MainActivity extends AppCompatActivity implements  TimePickerDialog
         setContentView(R.layout.activity_main);
         db = new DatabaseHelper(this);
 
+        // When user presses the register button, this activates and keeps listening to notify the user of the authentication process (only tje first time)
+        // after the first notification is given, thereafter the user has to click on "authorize" button to do the same 
+        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Calendar cal = Calendar.getInstance();
+
+                // User gets an alarm every thirty days at 18:00 HRS in the evening //
+                cal.set(Calendar.HOUR_OF_DAY, 18);
+                cal.set(Calendar.MINUTE, 00);
+                cal.set(Calendar.SECOND, 00);
+
+
+                Intent intent = new Intent(getApplicationContext(), Notification_receiver.class);
+                PendingIntent pid = PendingIntent.getBroadcast(getApplicationContext(), 100, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                AlarmManager alarmMan = (AlarmManager) getSystemService(ALARM_SERVICE);
+                alarmMan.setRepeating(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), 720 * 60 * 60 * 1000, pid);
+
+            }
+        });
     }
-
-    @Override
-    public void onDateSet(DatePickerDialog view, int year, int month, int day) {
-        now.set(Calendar.YEAR, year);
-        now.set(Calendar.MONTH, month);
-        now.set(Calendar.DAY_OF_MONTH, day);
-        tpd.show(getFragmentManager(), "Timepickerdialog");
-    }
-
-    @Override
-    public void onTimeSet(TimePickerDialog view, int hour, int minute, int sec) {
-        now.set(Calendar.HOUR_OF_DAY, hour);
-        now.set(Calendar.MINUTE, minute);
-        now.set(Calendar.SECOND, sec);
-
-
-        NotifyMe ntfyme = new NotifyMe.Builder(getApplicationContext()).color(255, 0, 0, 255).led_color(255, 255, 255, 255)
-                .time(now).addAction(new Intent(), "Snooze", false)
-                .key("test").addAction(new Intent(), "Dismiss", true, false).addAction(new Intent(), "Done")
-                .large_icon(R.mipmap.ic_launcher_round).build();
-
-    }
-//
-//    public class Events  {
-//        private List<Events> listeners =  new ArrayList<Events>();
-//
-//        public void addListener(Events toAdd) {
-//            listeners.add(toAdd);
-//        }
-//
-//        public void sayHello() {
-//            System.out.println("Hello");
-//
-//            for(Events pl : listeners) {
-//               // pl.someOne();
-//            }
-//        }
-//    }
-//    Events e = new Events();
-//    private List<e> listeners = new ArrayList<e>();
-
 
 }

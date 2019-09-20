@@ -16,7 +16,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String TABLE_UR = "RegTable";
     public static final String TABLE_UT = "UserTrusted";
     public static final String TABLE_UW = "UserWills";
-    public static final String TABLE_UA = "UserAuth";
 
     // Table attributes for Registration
     public static final String RId = "ID";
@@ -33,7 +32,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     // Table attributes for UserWills //
     private static final String BrowserPasswords = "Password";
-
 
     // Bank Details //
     public static final String AccName = "", IFSCCode = "", BranchCode = "";
@@ -96,7 +94,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // Registration table is created when db object is created in MainActivity page //
         db.execSQL(registration);
         db.execSQL(trustedUsers);
-       // db.execSQL(userWills);
+        db.execSQL(userWills);
     }
 
     @Override
