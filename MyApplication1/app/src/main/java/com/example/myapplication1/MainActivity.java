@@ -4,12 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.database.sqlite.SQLiteOpenHelper;
 import android.os.Bundle;
 import android.view.View;
 import java.util.Calendar;
 
 
 public class MainActivity extends AppCompatActivity {
+    //SQLiteOpenHelper openHelper;
     DatabaseHelper db;
 
     @Override
@@ -19,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         db = new DatabaseHelper(this);
 
         // When user presses the register button, this activates and keeps listening to notify the user of the authentication process (only tje first time)
-        // after the first notification is given, thereafter the user has to click on "authorize" button to do the same 
+        // after the first notification is given, thereafter the user has to click on "authorize" button to do the same
         findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
